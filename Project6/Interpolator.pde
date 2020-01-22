@@ -34,9 +34,6 @@ abstract class Interpolator
   
   void UpdateTime(float time)
   {
-    // TODO: Update the current time
-    // Check to see if the time is out of bounds (0 / Animation_Duration)
-    // If so, adjust by an appropriate amount to loop correctly
     float dur = animation.GetDuration();
     if(time > 0) {
      if(currentTime > dur) {
@@ -56,9 +53,7 @@ abstract class Interpolator
     }
   }
   
-  // Implement this in derived classes
-  // Each of those should call UpdateTime() and pass the time parameter
-  // Call that function FIRST to ensure proper synching of animations
+  
   abstract void Update(float time);
 }
 
@@ -84,6 +79,7 @@ class ShapeInterpolator extends Interpolator
     KeyFrame after = reference[1];
     float ratio = getRatio(currentTime, before.time, after.time);
     currentShape = createShape();
+    //if snapping is true the animation will snap to the next keyframe of the animation.
     if(snapping) {
      currentShape.setStroke(false);
      currentShape.setFill(fillColor);
@@ -94,6 +90,7 @@ class ShapeInterpolator extends Interpolator
      }
        currentShape.endShape();
     }
+    //otherwise use the interpolation calculation to generate the frames between the keyframes 
    else {
      currentShape.setStroke(false);
      currentShape.setFill(fillColor);
@@ -107,8 +104,7 @@ class ShapeInterpolator extends Interpolator
      }
      currentShape.endShape();
    }
-    // TODO: Create a new PShape by interpolating between two existing key frames
-    // using linear interpolation
+    
   }
 }
 
@@ -139,7 +135,6 @@ class PositionInterpolator extends Interpolator
     deltaZ = after.z-before.z;
     
     currentPosition = new PVector(before.x+(ratio * deltaX), before.y+(ratio * deltaY), before.z+(ratio * deltaZ)); 
-    // The same type of process as the ShapeInterpolator class... except
-    // this only operates on a single point
+ 
   }
 }
